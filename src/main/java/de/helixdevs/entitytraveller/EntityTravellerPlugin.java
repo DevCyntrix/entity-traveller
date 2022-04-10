@@ -17,8 +17,8 @@ import java.util.Collection;
 
 public class EntityTravellerPlugin extends JavaPlugin implements Listener {
 
-    private static final int RESOURCE_ID = 1;
-    private static final int BSTATS_ID = 1;
+    private static final int RESOURCE_ID = 101290;
+    private static final int BSTATS_ID = 14900;
     private String newestVersion;
 
     @Override

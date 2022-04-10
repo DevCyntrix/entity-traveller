@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "de.helixdevs"
-version = "1.0.0"
+version = "1.0.1"
 
 java {
     toolchain.languageVersion.set(JavaLanguageVersion.of(17))
@@ -54,4 +54,10 @@ bukkit {
     main = "de.helixdevs.entitytraveller.EntityTravellerPlugin"
     apiVersion = "1.15"
     authors = listOf("CyntrixAlgorithm")
+    permissions {
+        register("entitytraveller.update") {
+            default = net.minecrell.pluginyml.bukkit.BukkitPluginDescription.Permission.Default.OP
+            description = "Gives the player the permission to receive notification when a newer plugin version is available."
+        }
+    }
 }

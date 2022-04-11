@@ -49,7 +49,6 @@ public class EntityTravellerPlugin extends JavaPlugin implements Listener {
         if (event.getTo() == null)
             return;
 
-
         if(!player.hasPermission("entity.transport"))
             return;
 
@@ -67,6 +66,7 @@ public class EntityTravellerPlugin extends JavaPlugin implements Listener {
                     if(subtract.getBlock().getType() != Material.AIR)
                         subtract = event.getTo();
                     livingEntity.teleport(subtract);
+                    livingEntity.setLeashHolder(player);
                 });
     }
 

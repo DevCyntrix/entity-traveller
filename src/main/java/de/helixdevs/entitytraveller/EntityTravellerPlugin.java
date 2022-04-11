@@ -65,6 +65,7 @@ public class EntityTravellerPlugin extends JavaPlugin implements Listener {
                     Location subtract = event.getTo().clone().subtract(diff);
                     if(subtract.getBlock().getType() != Material.AIR)
                         subtract = event.getTo();
+                    livingEntity.setLeashHolder(null);
                     livingEntity.teleport(subtract);
                     livingEntity.setLeashHolder(player);
                 });

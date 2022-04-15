@@ -1,1 +1,7 @@
 update-checker: true
+entity-filter:
+#  type: whitelist
+  type: blacklist
+  # A list of all entities here: https://hub.spigotmc.org/javadocs/bukkit/org/bukkit/entity/EntityType.html
+  entities:
+#    - CHICKEN

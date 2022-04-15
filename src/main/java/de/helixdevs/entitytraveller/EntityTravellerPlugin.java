@@ -3,7 +3,9 @@ package de.helixdevs.entitytraveller;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,6 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.function.Predicate;
 
 public class EntityTravellerPlugin extends JavaPlugin implements Listener {
 
@@ -21,10 +25,27 @@ public class EntityTravellerPlugin extends JavaPlugin implements Listener {
     private static final int BSTATS_ID = 14900;
     private String newestVersion;
 
+    private Predicate<EntityType> allowedTest;
+
     @Override
     public void onEnable() {
         saveDefaultConfig();
         reloadConfig();
+
+        ConfigurationSection section = getConfig().getConfigurationSection("entity-filter");
+        if(section != null) {
+            String type = section.getString("type");
+            boolean block = "blacklist".equalsIgnoreCase(type);
+            List<String> entities = section.getStringList("entities");
+            List<EntityType> list = entities.stream().map(EntityType::valueOf).toList();
+            this.allowedTest = entityType -> {
+                if(block && list.contains(entityType))
+                    return false;
+                return block || list.contains(entityType);
+            };
+        } else {
+            this.allowedTest = entityType -> true;
+        }
 
         if(getConfig().getBoolean("update-checker", true)) {
             UpdateChecker updateChecker = new UpdateChecker(this, RESOURCE_ID);
@@ -57,6 +78,7 @@ public class EntityTravellerPlugin extends JavaPlugin implements Listener {
         nearbyEntities.stream()
                 .map(entity -> (LivingEntity) entity)
                 .filter(livingEntity -> player.equals(livingEntity.getLeashHolder()))
+                .filter(livingEntity -> allowedTest.test(livingEntity.getType()))
                 .forEach(livingEntity -> {
                     Vector entityVector = livingEntity.getLocation().toVector();
                     Vector fromVector = event.getFrom().toVector();

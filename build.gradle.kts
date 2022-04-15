@@ -13,9 +13,7 @@ java {
 
 repositories {
     mavenCentral()
-    maven {
-        url = uri("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
-    }
+    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -53,6 +51,7 @@ bukkit {
     description = "With this plugin you can travel with the leashed entities."
     main = "de.helixdevs.entitytraveller.EntityTravellerPlugin"
     apiVersion = "1.15"
+    website = "https://www.spigotmc.org/resources/entity-traveller.101290/"
     authors = listOf("CyntrixAlgorithm")
     permissions {
         register("entitytraveller.update") {
